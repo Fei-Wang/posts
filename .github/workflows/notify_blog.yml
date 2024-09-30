@@ -1,0 +1,31 @@
+name: Notify Blog on LaTeX Changes
+
+on:
+  push:
+    paths:
+      - "latex/**"
+  workflow_dispatch:
+
+jobs:
+  notify_blog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout posts repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # Fetch the last two commits
+
+      - name: Find changed directories
+        id: find_changes
+        run: |
+          changed_dirs=$(git diff --name-only HEAD^ HEAD | grep '^latex/' | awk -F/ '{print $2}' | sort -u)
+          echo "dirs=$changed_dirs" >> $GITHUB_ENV
+
+      - name: Send dispatch to blog repo
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          repository: Fei-Wang/blog
+          event-type: latex-changes
+          client-payload: '{"changed_dirs": "${{ env.dirs }}"}'

@@ -1,0 +1,277 @@
+% This LaTeX package, `my.sty`, is derived from the original NeurIPS 2024 style file (`neurips_2024.sty`). 
+% The modifications made to this file are intended to customize the formatting and style for specific needs. 
+% Please refer to the original NeurIPS 2024 style documentation for details on the base format and conventions.
+% 
+% Original Style File:
+% \ProvidesPackage{neurips_2024}[2024/03/31 NeurIPS 2024 submission/camera-ready style file]
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{../my}[2024/08/05 My style file]
+
+\ProcessOptions\relax
+
+
+% Encoding and fonts: Load early for proper input and font encoding
+\RequirePackage[utf8]{inputenc}     % Allow utf-8 input, must be loaded early for input encoding
+\RequirePackage[T1]{fontenc}        % Use 8-bit T1 fonts, for font encoding
+
+% Page layout: Load early to set up the page correctly
+\RequirePackage[verbose=true,letterpaper]{geometry} % For setting up page layout, load early
+
+% Core packages: Load before other packages that might depend on them
+\RequirePackage{amsmath}            % For advanced mathematical typesetting
+\RequirePackage{amssymb}            % For additional mathematical symbols
+\RequirePackage{amsfonts}           % Blackboard math symbols
+\RequirePackage{bbm}                % For bold math symbols
+
+% Graphics and color: Load before other packages that might use graphics or color
+\RequirePackage{graphicx}           % For including graphics
+\RequirePackage[dvipsnames]{xcolor} % For color names
+
+% Tables and fractions: Load before other content packages
+\RequirePackage{booktabs}           % Professional-quality tables
+\RequirePackage{nicefrac}           % Compact symbols for 1/2, etc.
+
+% Text appearance: Load for improved text quality
+\RequirePackage{microtype}          % For improved text appearance with microtypography
+
+% Custom environments and quotations: Load before packages that use these features
+\RequirePackage{environ}            % For creating custom environments
+\RequirePackage{csquotes}           % For context-sensitive quotation marks
+
+% Captions and subcaptions: Load before packages that depend on them for figures and tables
+\RequirePackage{caption}            % For customizing captions
+\RequirePackage{subcaption}         % For subcaptions within figures and tables
+
+% URL typesetting: Often loaded late as it has few dependencies
+\RequirePackage{url}                % Simple URL typesetting
+
+% Citations: Load before hyperref to ensure proper hyperlinking of citations
+\RequirePackage[numbers, compress]{natbib} % For citations, load before hyperref
+
+% Hyperlinks: Load late to avoid conflicts with other packages
+\RequirePackage[colorlinks]{hyperref} % Hyperlinks, should be loaded late to avoid conflicts
+
+% Cross-referencing: Load after hyperref for proper interaction
+\RequirePackage[capitalize]{cleveref} % Support for easy cross-referencing, load after hyperref
+
+% Additional symbols: Load before custom environments or any package using these symbols
+\RequirePackage{pifont}             % Additional symbols
+
+
+\renewcommand{\rmdefault}{ptm}
+\renewcommand{\sfdefault}{phv}
+
+% acknowledgments
+\newcommand{\acksection}{\section*{Acknowledgments}}
+\NewEnviron{ack}{%
+  \acksection
+  \BODY
+}
+
+% set page geometry
+\AtBeginDocument{
+  \newgeometry{
+    textheight=9in,
+    textwidth=5.5in,
+    top=1in,
+    headheight=12pt,
+    headsep=25pt,
+    footskip=30pt
+  }
+  \@ifpackageloaded{fullpage}
+  {\PackageWarning{my}{fullpage package not allowed! Overwriting formatting.}}
+  {}
+}
+
+\widowpenalty=10000
+\clubpenalty=10000
+\flushbottom
+\sloppy
+
+
+% font sizes with reduced leading
+\renewcommand{\normalsize}{%
+  \@setfontsize\normalsize\@xpt\@xipt
+  \abovedisplayskip      7\p@ \@plus 2\p@ \@minus 5\p@
+  \abovedisplayshortskip \z@ \@plus 3\p@
+  \belowdisplayskip      \abovedisplayskip
+  \belowdisplayshortskip 4\p@ \@plus 3\p@ \@minus 3\p@
+}
+\normalsize
+\renewcommand{\small}{%
+  \@setfontsize\small\@ixpt\@xpt
+  \abovedisplayskip      6\p@ \@plus 1.5\p@ \@minus 4\p@
+  \abovedisplayshortskip \z@  \@plus 2\p@
+  \belowdisplayskip      \abovedisplayskip
+  \belowdisplayshortskip 3\p@ \@plus 2\p@   \@minus 2\p@
+}
+\renewcommand{\footnotesize}{\@setfontsize\footnotesize\@ixpt\@xpt}
+\renewcommand{\scriptsize}{\@setfontsize\scriptsize\@viipt\@viiipt}
+\renewcommand{\tiny}{\@setfontsize\tiny\@vipt\@viipt}
+\renewcommand{\large}{\@setfontsize\large\@xiipt{14}}
+\renewcommand{\Large}{\@setfontsize\Large\@xivpt{16}}
+\renewcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{20}}
+\renewcommand{\huge}{\@setfontsize\huge\@xxpt{23}}
+\renewcommand{\Huge}{\@setfontsize\Huge\@xxvpt{28}}
+
+% sections with less space
+\providecommand{\section}{}
+\renewcommand{\section}{%
+  \@startsection{section}{1}{\z@}%
+  {-2.0ex \@plus -0.5ex \@minus -0.2ex}%
+  { 1.5ex \@plus  0.3ex \@minus  0.2ex}%
+  {\large\bf\raggedright}%
+}
+\providecommand{\subsection}{}
+\renewcommand{\subsection}{%
+  \@startsection{subsection}{2}{\z@}%
+  {-1.8ex \@plus -0.5ex \@minus -0.2ex}%
+  { 0.8ex \@plus  0.2ex}%
+  {\normalsize\bf\raggedright}%
+}
+\providecommand{\subsubsection}{}
+\renewcommand{\subsubsection}{%
+  \@startsection{subsubsection}{3}{\z@}%
+  {-1.5ex \@plus -0.5ex \@minus -0.2ex}%
+  { 0.5ex \@plus  0.2ex}%
+  {\normalsize\bf\raggedright}%
+}
+\providecommand{\paragraph}{}
+\renewcommand{\paragraph}{%
+  \@startsection{paragraph}{4}{\z@}%
+  {1.5ex \@plus 0.5ex \@minus 0.2ex}%
+  {-1em}%
+  {\normalsize\bf}%
+}
+\providecommand{\subparagraph}{}
+\renewcommand{\subparagraph}{%
+  \@startsection{subparagraph}{5}{\z@}%
+  {1.5ex \@plus 0.5ex \@minus 0.2ex}%
+  {-1em}%
+  {\normalsize\bf}%
+}
+\providecommand{\subsubsubsection}{}
+\renewcommand{\subsubsubsection}{%
+  \vskip5pt{\noindent\normalsize\rm\raggedright}%
+}
+
+% float placement
+\renewcommand{\topfraction      }{0.85}
+\renewcommand{\bottomfraction   }{0.4}
+\renewcommand{\textfraction     }{0.1}
+\renewcommand{\floatpagefraction}{0.7}
+
+\newlength{\@myabovecaptionskip}\setlength{\@myabovecaptionskip}{7\p@}
+\newlength{\@mybelowcaptionskip}\setlength{\@mybelowcaptionskip}{\z@}
+
+\setlength{\abovecaptionskip}{\@myabovecaptionskip}
+\setlength{\belowcaptionskip}{\@mybelowcaptionskip}
+
+% swap above/belowcaptionskip lengths for tables
+\renewenvironment{table}
+{\setlength{\abovecaptionskip}{\@mybelowcaptionskip}%
+  \setlength{\belowcaptionskip}{\@myabovecaptionskip}%
+  \@float{table}}
+{\end@float}
+
+% footnote formatting
+\setlength{\footnotesep }{6.65\p@}
+\setlength{\skip\footins}{9\p@ \@plus 4\p@ \@minus 2\p@}
+\renewcommand{\footnoterule}{\kern-3\p@ \hrule width 12pc \kern 2.6\p@}
+\setcounter{footnote}{0}
+
+% paragraph formatting
+\setlength{\parindent}{\z@}
+\setlength{\parskip  }{5.5\p@}
+
+% list formatting
+\setlength{\topsep       }{4\p@ \@plus 1\p@   \@minus 2\p@}
+\setlength{\partopsep    }{1\p@ \@plus 0.5\p@ \@minus 0.5\p@}
+\setlength{\itemsep      }{2\p@ \@plus 1\p@   \@minus 0.5\p@}
+\setlength{\parsep       }{2\p@ \@plus 1\p@   \@minus 0.5\p@}
+\setlength{\leftmargin   }{3pc}
+\setlength{\leftmargini  }{\leftmargin}
+\setlength{\leftmarginii }{2em}
+\setlength{\leftmarginiii}{1.5em}
+\setlength{\leftmarginiv }{1.0em}
+\setlength{\leftmarginv  }{0.5em}
+\def\@listi  {\leftmargin\leftmargini}
+\def\@listii {\leftmargin\leftmarginii
+  \labelwidth\leftmarginii
+  \advance\labelwidth-\labelsep
+  \topsep  2\p@ \@plus 1\p@    \@minus 0.5\p@
+  \parsep  1\p@ \@plus 0.5\p@ \@minus 0.5\p@
+  \itemsep \parsep}
+\def\@listiii{\leftmargin\leftmarginiii
+  \labelwidth\leftmarginiii
+  \advance\labelwidth-\labelsep
+  \topsep    1\p@ \@plus 0.5\p@ \@minus 0.5\p@
+  \parsep    \z@
+  \partopsep 0.5\p@ \@plus 0\p@ \@minus 0.5\p@
+  \itemsep \topsep}
+\def\@listiv {\leftmargin\leftmarginiv
+  \labelwidth\leftmarginiv
+  \advance\labelwidth-\labelsep}
+\def\@listv  {\leftmargin\leftmarginv
+  \labelwidth\leftmarginv
+  \advance\labelwidth-\labelsep}
+\def\@listvi {\leftmargin\leftmarginvi
+  \labelwidth\leftmarginvi
+  \advance\labelwidth-\labelsep}
+
+
+% rules for title box at top of first page
+\newcommand{\@toptitlebar}{
+  \hrule height 4\p@
+  \vskip 0.25in
+  \vskip -\parskip%
+}
+\newcommand{\@bottomtitlebar}{
+  \vskip 0.29in
+  \vskip -\parskip
+  \hrule height 1\p@
+  \vskip 0.09in%
+}
+
+% create title 
+\providecommand{\@maketitle}{}
+\renewcommand{\@maketitle}{%
+  \vbox{%
+    \hsize\textwidth
+    \linewidth\hsize
+    \vskip 0.1in
+    \@toptitlebar
+    \centering
+    {\LARGE\bf \@title\par}
+    \@bottomtitlebar
+    \vskip 0.3in \@minus 0.1in
+  }
+}
+
+\NewEnviron{block}{%
+  \begin{trivlist}
+    \item\relax
+    \begin{tabular}{|l|}
+      \hline
+      \rule{0pt}{1em}\ignorespaces
+      \BODY
+      \\ \hline
+    \end{tabular}
+  \end{trivlist}
+}
+\newcommand{\cmark}{\ding{51}} % Check mark
+\newcommand{\xmark}{\ding{55}} % Cross mark
+
+\newcommand{\urlref}{\begingroup \urlstyle{tt}\Url}
+\def\pdf#1{\href{https://github.com/Fei-Wang/posts/blob/main/latex/#1/main.pdf}{\urlref{pdf://#1}}}
+\def\code#1{\href{https://github.com/Fei-Wang/posts/blob/main/src/posts/#1}{\urlref{code://#1}}}
+
+\newcommand{\printbibliography}[1][references]
+{
+  \small
+  \bibliographystyle{unsrtnat}
+  \bibliography{#1}
+}
+
+\endinput
